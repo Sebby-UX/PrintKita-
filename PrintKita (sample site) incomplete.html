@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrintKita - Print Anything, Anywhere</title>
     <style>
-        /* GENERAL STYLES */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -19,7 +18,6 @@
         }
         a { text-decoration: none; color: inherit; }
         
-        /* HEADER */
         header {
             background-color: #fff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -41,7 +39,6 @@
         nav a { font-weight: 500; transition: 0.3s; }
         nav a:hover { color: #0056b3; }
 
-        /* HERO SECTION */
         .hero {
             background: linear-gradient(135deg, #0056b3, #003d80);
             color: white;
@@ -51,7 +48,6 @@
         .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
         .hero p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem; }
 
-        /* MAIN UPLOAD SECTION (The Core Feature) */
         .upload-section {
             max-width: 800px;
             margin: -50px auto 0;
@@ -68,11 +64,9 @@
             color: #0056b3;
         }
 
-        /* FORM STYLING */
         .form-group { margin-bottom: 1.5rem; }
         label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
         
-        /* Drag and Drop Area */
         .drop-zone {
             border: 2px dashed #0056b3;
             border-radius: 8px;
@@ -85,7 +79,6 @@
         .drop-zone:hover { background: #e0f0ff; }
         .drop-zone p { margin-top: 10px; color: #666; }
         
-        /* Inputs & Selects */
         select, input[type="number"] {
             width: 100%;
             padding: 10px;
@@ -94,14 +87,12 @@
             font-size: 1rem;
         }
         
-        /* Grid Layout for Options */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
-        /* Button */
         .btn-print {
             width: 100%;
             padding: 15px;
@@ -116,7 +107,6 @@
         }
         .btn-print:hover { background-color: #218838; }
 
-        /* SERVICES SECTION */
         .services {
             padding: 4rem 2rem;
             text-align: center;
@@ -140,7 +130,6 @@
         .card h3 { color: #0056b3; margin-bottom: 0.5rem; }
         .card p { font-size: 0.9rem; color: #666; }
 
-        /* FOOTER */
         footer {
             background: #333;
             color: white;
@@ -149,16 +138,14 @@
             margin-top: 2rem;
         }
         
-        /* Responsive adjustments */
         @media (max-width: 600px) {
             .options-grid { grid-template-columns: 1fr; }
-            nav ul { display: none; } /* Simple hide for mobile view in mockup */
+            nav ul { display: none; } 
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
     <header>
         <div class="logo">Print<span>Kita</span></div>
         <nav>
@@ -170,21 +157,18 @@
         </nav>
     </header>
 
-    <!-- HERO BANNER -->
     <div class="hero">
         <h1>No Sign-Up Required.</h1>
         <h1>Just Print.</h1>
         <p>Upload your file, choose your format, and pick it up or have it delivered.</p>
     </div>
 
-    <!-- MAIN FUNCTIONAL AREA -->
     <section class="upload-section" id="order">
         <h2 class="section-title">Start Your Order</h2>
         <p style="text-align:center; margin-bottom:20px; color:#666;">All formats accepted: PDF, DOCX, JPG, PNG, CDR.</p>
 
         <form action="#" method="POST" enctype="multipart/form-data">
             
-            <!-- File Upload -->
             <div class="form-group">
                 <label>1. Upload Your File</label>
                 <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
@@ -194,7 +178,6 @@
                 </div>
             </div>
 
-            <!-- Options Grid -->
             <div class="options-grid">
                 <div class="form-group">
                     <label for="paperType">2. Paper / Material</label>
@@ -232,7 +215,6 @@
                 </div>
             </div>
 
-            <!-- Notes -->
             <div class="form-group">
                 <label for="notes">Special Instructions (Optional)</label>
                 <input type="text" id="notes" placeholder="e.g., Borderless printing, specific size...">
@@ -242,7 +224,6 @@
         </form>
     </section>
 
-    <!-- SERVICES SECTION -->
     <section class="services" id="services">
         <h2>What Can You Print?</h2>
         <div class="cards">
@@ -265,15 +246,12 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer id="contact">
         <p>&copy; 2025 PrintKita. A project by BES3 Students - PLSP.</p>
         <p>Contact: printkita@gmail.com | Pick-up: Brgy. San Jose, San Pablo City</p>
     </footer>
 
-    <!-- SIMPLE JAVASCRIPT FOR INTERACTIVITY -->
     <script>
-        // This script handles the visual feedback when a user selects a file
         const fileInput = document.getElementById('fileInput');
         const fileNameDisplay = document.getElementById('fileNameDisplay');
 
