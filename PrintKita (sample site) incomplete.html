@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintKita - Print Anything, Anywhere</title>
+    <style>
+        /* GENERAL STYLES */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+        }
+        a { text-decoration: none; color: inherit; }
+        
+        /* HEADER */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0056b3;
+        }
+        .logo span { color: #28a745; }
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav a { font-weight: 500; transition: 0.3s; }
+        nav a:hover { color: #0056b3; }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, #0056b3, #003d80);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem; }
+
+        /* MAIN UPLOAD SECTION (The Core Feature) */
+        .upload-section {
+            max-width: 800px;
+            margin: -50px auto 0;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #0056b3;
+        }
+
+        /* FORM STYLING */
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        
+        /* Drag and Drop Area */
+        .drop-zone {
+            border: 2px dashed #0056b3;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            background: #f0f8ff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .drop-zone:hover { background: #e0f0ff; }
+        .drop-zone p { margin-top: 10px; color: #666; }
+        
+        /* Inputs & Selects */
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        /* Grid Layout for Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Button */
+        .btn-print {
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-print:hover { background-color: #218838; }
+
+        /* SERVICES SECTION */
+        .services {
+            padding: 4rem 2rem;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .services h2 { margin-bottom: 2rem; }
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            width: 200px;
+        }
+        .card h3 { color: #0056b3; margin-bottom: 0.5rem; }
+        .card p { font-size: 0.9rem; color: #666; }
+
+        /* FOOTER */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .options-grid { grid-template-columns: 1fr; }
+            nav ul { display: none; } /* Simple hide for mobile view in mockup */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">Print<span>Kita</span></div>
+        <nav>
+            <ul>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO BANNER -->
+    <div class="hero">
+        <h1>No Sign-Up Required.</h1>
+        <h1>Just Print.</h1>
+        <p>Upload your file, choose your format, and pick it up or have it delivered.</p>
+    </div>
+
+    <!-- MAIN FUNCTIONAL AREA -->
+    <section class="upload-section" id="order">
+        <h2 class="section-title">Start Your Order</h2>
+        <p style="text-align:center; margin-bottom:20px; color:#666;">All formats accepted: PDF, DOCX, JPG, PNG, CDR.</p>
+
+        <form action="#" method="POST" enctype="multipart/form-data">
+            
+            <!-- File Upload -->
+            <div class="form-group">
+                <label>1. Upload Your File</label>
+                <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+                    <input type="file" id="fileInput" style="display:none;" required>
+                    <div style="font-size: 2rem; color:#0056b3;">&#128196;</div>
+                    <p id="fileNameDisplay">Click to browse or drag & drop here</p>
+                </div>
+            </div>
+
+            <!-- Options Grid -->
+            <div class="options-grid">
+                <div class="form-group">
+                    <label for="paperType">2. Paper / Material</label>
+                    <select id="paperType">
+                        <option value="A4-BW">A4 Bond Paper (Black & White)</option>
+                        <option value="A4-Color">A4 Bond Paper (Colored)</option>
+                        <option value="Legal">Legal Size Bond Paper</option>
+                        <option value="Sticker">Sticker Paper (Vinyl)</option>
+                        <option value="Photo">Photo Paper (Glossy)</option>
+                        <option value="Tarp">Tarpaulin (Per sq. ft.)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">3. Copies / Quantity</label>
+                    <input type="number" id="quantity" value="1" min="1">
+                </div>
+            </div>
+
+            <div class="options-grid">
+                <div class="form-group">
+                    <label for="delivery">4. Delivery Option</label>
+                    <select id="delivery">
+                        <option value="pickup">Pick-up at PLSP Gate</option>
+                        <option value="deliver">Deliver to my Address (Extra Fee)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="colorMode">5. Color Mode</label>
+                    <select id="colorMode">
+                        <option value="bw">Black & White</option>
+                        <option value="colored">Colored</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="form-group">
+                <label for="notes">Special Instructions (Optional)</label>
+                <input type="text" id="notes" placeholder="e.g., Borderless printing, specific size...">
+            </div>
+
+            <button type="submit" class="btn-print">Proceed to Checkout</button>
+        </form>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section class="services" id="services">
+        <h2>What Can You Print?</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>Documents</h3>
+                <p>Thesis, Reports, Assignments. Fast and crisp.</p>
+            </div>
+            <div class="card">
+                <h3>Marketing</h3>
+                <p>Flyers, Brochures, Posters for events.</p>
+            </div>
+            <div class="card">
+                <h3>Stickers</h3>
+                <p>Waterproof vinyl stickers for labels or designs.</p>
+            </div>
+            <div class="card">
+                <h3>Tarpaulins</h3>
+                <p>Birthdays, Banners, Signages in any size.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <p>&copy; 2025 PrintKita. A project by BES3 Students - PLSP.</p>
+        <p>Contact: printkita@gmail.com | Pick-up: Brgy. San Jose, San Pablo City</p>
+    </footer>
+
+    <!-- SIMPLE JAVASCRIPT FOR INTERACTIVITY -->
+    <script>
+        // This script handles the visual feedback when a user selects a file
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                fileNameDisplay.textContent = "Selected: " + e.target.files[0].name;
+                fileNameDisplay.style.color = "#28a745";
+                fileNameDisplay.style.fontWeight = "bold";
+            }
+        });
+    </script>
+</body>
+</html>
