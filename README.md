@@ -26,9 +26,7 @@ Features
 
 
 Installation
-- open repo
-- git clone https://github.com/your-username/printkita.git
-- Install the html on your device and Open the html in your browse.
+- Install the html on your device and Open the html in your browser.
 
 
 Usage
