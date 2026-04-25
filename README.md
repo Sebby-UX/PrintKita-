@@ -1,5 +1,7 @@
-PrintKita 
+PrintKita
+
 Print Anything, Anywhere.
+
 PrintKita is a web-based, self-service printing platform designed for convenience. It allows users to upload documents, customize print settings (paper size, color, quantity), and choose delivery or pickup options all without the need to create an account.
 This project is developed as a final requirement for Elective 2.
 
@@ -7,6 +9,7 @@ This project is developed as a final requirement for Elective 2.
 
 
 About The Project
+
 PrintKita solves the common student problem of long queues and inconvenient printing shop hours. By digitizing the process, users can send print requests remotely and simply pick them up or have them delivered.
 The application is a single-page solution built with simplicity in mind, requiring no database for the frontend interface, making it lightweight and easy to host on a minimal Virtual Machine.
 
