@@ -22,26 +22,42 @@ The application is a single-page solution built with simplicity in mind, requiri
 
 
 Features
+
 No Sign-Up Required: Instant file upload and checkout without creating accounts.
+
 Responsive Design: Works on desktop, tablet, and mobile devices.
+
 Customizable Orders:
+
 Choose paper types (Bond, Legal, Sticker, Photo).
+
 Select color mode (Black & White, Colored).
+
 Set quantity and special instructions.
+
 Delivery Options: Choose between Pick-up or Door-to-door delivery.
+
 Interactive UI: Drag-and-drop file upload with instant visual feedback.
 
 
 
 Installation
+
 open repo
+
 git clone https://github.com/your-username/printkita.git
+
 Install the html on your device and Open the html in your browse.
 
 
 Usage
+
 Open the website hosted on your VM.
+
 Upload File: Click the upload box or drag and drop your document (PDF, DOCX, JPG, PNG).
+
 Configure: Select paper size, color mode, and quantity.
+
 Instructions: Add special notes (e.g., "Borderless printing").
+
 Checkout: Click "Proceed to Checkout" to finalize the order.
