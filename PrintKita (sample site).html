@@ -79,7 +79,7 @@
         .drop-zone:hover { background: #e0f0ff; }
         .drop-zone p { margin-top: 10px; color: #666; }
         
-        select, input[type="number"] {
+        select, input[type="number"], input[type="text"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -91,6 +91,33 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
+        }
+
+        /* NEW FEATURE: Price Display Styling */
+        .price-summary {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .price-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .total-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #28a745;
+            margin-top: 5px;
+        }
+        .price-breakdown {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 5px;
         }
 
         .btn-print {
@@ -167,7 +194,7 @@
         <h2 class="section-title">Start Your Order</h2>
         <p style="text-align:center; margin-bottom:20px; color:#666;">All formats accepted: PDF, DOCX, JPG, PNG, CDR.</p>
 
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <form id="orderForm" action="#" method="POST" enctype="multipart/form-data">
             
             <div class="form-group">
                 <label>1. Upload Your File</label>
@@ -181,31 +208,32 @@
             <div class="options-grid">
                 <div class="form-group">
                     <label for="paperType">2. Paper / Material</label>
-                    <select id="paperType">
-                        <option value="A4-BW">A4 Bond Paper (Black & White)</option>
-                        <option value="A4-Color">A4 Bond Paper (Colored)</option>
-                        <option value="Legal">Legal Size Bond Paper</option>
-                        <option value="Sticker">Sticker Paper (Vinyl)</option>
-                        <option value="Photo">Photo Paper (Glossy)</option>
-                        <option value="Tarp">Tarpaulin (Per sq. ft.)</option>
+                    <select id="paperType" onchange="calculateTotal()">
+                        <option value="A4-BW" data-price="5">A4 Bond Paper (Black & White) - ₱5/page</option>
+                        <option value="A4-Color" data-price="10">A4 Bond Paper (Colored) - ₱10/page</option>
+                        <option value="Legal" data-price="5">Legal Size Bond Paper - ₱5/page</option>
+                        <option value="Sticker" data-price="50">Sticker Paper (Vinyl) - ₱50/sheet</option>
+                        <option value="Photo" data-price="40">Photo Paper (Glossy) - ₱40/sheet</option>
+                        <option value="Tarp" data-price="15">Tarpaulin - ₱15/sq. ft.</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="quantity">3. Copies / Quantity</label>
-                    <input type="number" id="quantity" value="1" min="1">
+                    <input type="number" id="quantity" value="1" min="1" onchange="calculateTotal()" oninput="calculateTotal()">
                 </div>
             </div>
 
             <div class="options-grid">
                 <div class="form-group">
                     <label for="delivery">4. Delivery Option</label>
-                    <select id="delivery">
-                        <option value="pickup">Pick-up at PLSP Gate</option>
-                        <option value="deliver">Deliver to my Address (Extra Fee)</option>
+                    <select id="delivery" onchange="calculateTotal()">
+                        <option value="pickup" data-fee="0">Pick-up at PLSP Gate (Free)</option>
+                        <option value="deliver" data-fee="40">Deliver to my Address (+₱40.00)</option>
                     </select>
                 </div>
 
+                <!-- Simplified color mode since paper type often dictates it, but keeping it for flexibility -->
                 <div class="form-group">
                     <label for="colorMode">5. Color Mode</label>
                     <select id="colorMode">
@@ -218,6 +246,13 @@
             <div class="form-group">
                 <label for="notes">Special Instructions (Optional)</label>
                 <input type="text" id="notes" placeholder="e.g., Borderless printing, specific size...">
+            </div>
+
+            <!-- NEW FEATURE: Live Price Display -->
+            <div class="price-summary">
+                <div class="price-label">Estimated Total</div>
+                <div class="total-price" id="totalPrice">₱0.00</div>
+                <div class="price-breakdown" id="priceBreakdown">(Upload a file to see pricing)</div>
             </div>
 
             <button type="submit" class="btn-print">Proceed to Checkout</button>
@@ -247,20 +282,56 @@
     </section>
 
     <footer id="contact">
-        <p>&copy; 2025 PrintKita. A project by BES3 Students - PLSP.</p>
+        <p>&copy; 2025 PrintKita. An Elective 2 Final Project.</p>
         <p>Contact: printkita@gmail.com | Pick-up: Brgy. San Jose, San Pablo City</p>
     </footer>
 
     <script>
         const fileInput = document.getElementById('fileInput');
         const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const totalPriceDisplay = document.getElementById('totalPrice');
+        const priceBreakdown = document.getElementById('priceBreakdown');
 
         fileInput.addEventListener('change', function(e) {
             if (e.target.files.length > 0) {
                 fileNameDisplay.textContent = "Selected: " + e.target.files[0].name;
                 fileNameDisplay.style.color = "#28a745";
                 fileNameDisplay.style.fontWeight = "bold";
+                
+                calculateTotal(); 
             }
+        });
+
+        function calculateTotal() {
+            const paperSelect = document.getElementById('paperType');
+            const quantityInput = document.getElementById('quantity');
+            const deliverySelect = document.getElementById('delivery');
+
+            const selectedPaperOption = paperSelect.options[paperSelect.selectedIndex];
+            const paperPrice = parseFloat(selectedPaperOption.getAttribute('data-price')) || 0;
+            
+            const quantity = parseInt(quantityInput.value) || 1;
+            
+            const selectedDeliveryOption = deliverySelect.options[deliverySelect.selectedIndex];
+            const deliveryFee = parseFloat(selectedDeliveryOption.getAttribute('data-fee')) || 0;
+
+            const subtotal = paperPrice * quantity;
+            const total = subtotal + deliveryFee;
+
+            totalPriceDisplay.textContent = "₱" + total.toFixed(2);
+            
+            let breakdownText = `${quantity} x ₱${paperPrice.toFixed(2)}`;
+            if (deliveryFee > 0) {
+                breakdownText += ` + ₱${deliveryFee.toFixed(2)} Delivery`;
+            }
+            priceBreakdown.textContent = breakdownText;
+        }
+
+        window.onload = calculateTotal;
+
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            alert("Order Calculated! In a real deployment, this would send data to your server.");
         });
     </script>
 </body>
