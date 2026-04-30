@@ -4,6 +4,7 @@ Added
 - Input Validation: Added form validation to ensure the address field is not empty if delivery is selected before submission.
 Changed
 - Event Handling: Refactored the delivery dropdown logic to handle both price updates and UI visibility simultaneously.
+
 UI/UX:
 - Applied a distinct yellow background style to the address field to draw attention when it appears.
 - Added a smooth fade-in animation for the address field toggle.
@@ -14,6 +15,7 @@ Added
 - Price Breakdown UI: Added a visual summary section showing the math behind the total (e.g., "5 x ₱5.00 + ₱40.00 Delivery").
 - Data Attributes: Integrated data-price and data-fee attributes into HTML select options to store pricing logic on the frontend.
 - Form Validation: Added a basic submit event listener to handle order processing simulation.
+
 Changed
 - Input Styling: Updated CSS to support the new price summary container and improved input field consistency.
 
