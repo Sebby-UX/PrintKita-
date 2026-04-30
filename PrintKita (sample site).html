@@ -93,7 +93,7 @@
             gap: 20px;
         }
 
-        /* NEW FEATURE: Price Display Styling */
+        /* Price Summary Styling */
         .price-summary {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -118,6 +118,25 @@
             font-size: 0.8rem;
             color: #888;
             margin-top: 5px;
+        }
+
+        /* NEW FEATURE: Hidden Address Field Styling */
+        .delivery-address-group {
+            display: none; /* Hidden by default */
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .delivery-address-group label {
+            color: #856404;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .btn-print {
@@ -227,13 +246,19 @@
             <div class="options-grid">
                 <div class="form-group">
                     <label for="delivery">4. Delivery Option</label>
-                    <select id="delivery" onchange="calculateTotal()">
+                    <!-- Changed onchange to handle both price and address visibility -->
+                    <select id="delivery" onchange="handleDeliveryChange()">
                         <option value="pickup" data-fee="0">Pick-up at PLSP Gate (Free)</option>
                         <option value="deliver" data-fee="40">Deliver to my Address (+₱40.00)</option>
                     </select>
+                    
+                    <!-- NEW FEATURE: Conditional Address Input -->
+                    <div class="delivery-address-group" id="addressGroup">
+                        <label for="address">Please enter your delivery address:</label>
+                        <input type="text" id="address" placeholder="e.g., 123 Rizal St., Brgy. San Jose...">
+                    </div>
                 </div>
 
-                <!-- Simplified color mode since paper type often dictates it, but keeping it for flexibility -->
                 <div class="form-group">
                     <label for="colorMode">5. Color Mode</label>
                     <select id="colorMode">
@@ -248,7 +273,7 @@
                 <input type="text" id="notes" placeholder="e.g., Borderless printing, specific size...">
             </div>
 
-            <!-- NEW FEATURE: Live Price Display -->
+            <!-- Price Display -->
             <div class="price-summary">
                 <div class="price-label">Estimated Total</div>
                 <div class="total-price" id="totalPrice">₱0.00</div>
@@ -291,13 +316,14 @@
         const fileNameDisplay = document.getElementById('fileNameDisplay');
         const totalPriceDisplay = document.getElementById('totalPrice');
         const priceBreakdown = document.getElementById('priceBreakdown');
+        const deliverySelect = document.getElementById('delivery');
+        const addressGroup = document.getElementById('addressGroup');
 
         fileInput.addEventListener('change', function(e) {
             if (e.target.files.length > 0) {
                 fileNameDisplay.textContent = "Selected: " + e.target.files[0].name;
                 fileNameDisplay.style.color = "#28a745";
                 fileNameDisplay.style.fontWeight = "bold";
-                
                 calculateTotal(); 
             }
         });
@@ -305,8 +331,7 @@
         function calculateTotal() {
             const paperSelect = document.getElementById('paperType');
             const quantityInput = document.getElementById('quantity');
-            const deliverySelect = document.getElementById('delivery');
-
+            
             const selectedPaperOption = paperSelect.options[paperSelect.selectedIndex];
             const paperPrice = parseFloat(selectedPaperOption.getAttribute('data-price')) || 0;
             
@@ -327,11 +352,27 @@
             priceBreakdown.textContent = breakdownText;
         }
 
+        function handleDeliveryChange() {
+            calculateTotal();
+
+            if (deliverySelect.value === 'deliver') {
+                addressGroup.style.display = 'block';
+            } else {
+                addressGroup.style.display = 'none';
+            }
+        }
+
         window.onload = calculateTotal;
 
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
-            alert("Order Calculated! In a real deployment, this would send data to your server.");
+            
+            if (deliverySelect.value === 'deliver' && document.getElementById('address').value.trim() === "") {
+                alert("Please enter a delivery address.");
+                return;
+            }
+
+            alert("Order placed successfully! (This is a demo)");
         });
     </script>
 </body>
