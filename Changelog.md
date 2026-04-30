@@ -1,3 +1,13 @@
+Version 1.3 - Dynamic Address Input
+Added
+- Conditional Address Field: A "Delivery Address" input field now dynamically appears only when the user selects "Deliver to my Address" from the dropdown.
+- Input Validation: Added form validation to ensure the address field is not empty if delivery is selected before submission.
+Changed
+- Event Handling: Refactored the delivery dropdown logic to handle both price updates and UI visibility simultaneously.
+UI/UX:
+- Applied a distinct yellow background style to the address field to draw attention when it appears.
+- Added a smooth fade-in animation for the address field toggle.
+
 Version 1.2 - Dynamic Pricing Update
 Added
 - Live Price Calculator: Implemented a dynamic pricing engine that calculates the total cost instantly as the user selects options.
