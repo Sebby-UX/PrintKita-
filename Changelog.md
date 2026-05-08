@@ -1,3 +1,13 @@
+Version 1.4 - Order Confirmation & Receipt System
+Added
+- Transaction ID Generator: Implemented a feature to generate a unique random Transaction ID (e.g., PK-82931) upon checkout, serving as the customer's receipt number.
+- Customer Nickname Field: Added a required input field for customers to enter their nickname, facilitating easier identification for delivery drivers or pickup staff.
+- Order Success Screen: Created a new UI container that displays the final receipt details (Customer Name, File, Price, Transaction ID) after a successful order.
+
+Changed
+- Form Submission Flow: Refactored the checkout process to hide the order form and display the success screen upon submission, preventing duplicate orders and providing clear feedback to the user.
+- UI Structure: The main upload section now conditionally displays either the Form or the Receipt view.
+
 Version 1.3 - Dynamic Address Input
 Added
 - Conditional Address Field: A "Delivery Address" input field now dynamically appears only when the user selects "Deliver to my Address" from the dropdown.
