@@ -120,9 +120,9 @@
             margin-top: 5px;
         }
 
-        /* NEW FEATURE: Hidden Address Field Styling */
+        /* Hidden Address Field Styling */
         .delivery-address-group {
-            display: none; /* Hidden by default */
+            display: none; 
             background: #fff3cd;
             border: 1px solid #ffeeba;
             padding: 1rem;
@@ -130,9 +130,7 @@
             margin-top: 1rem;
             animation: fadeIn 0.3s ease-in-out;
         }
-        .delivery-address-group label {
-            color: #856404;
-        }
+        .delivery-address-group label { color: #856404; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
@@ -152,6 +150,58 @@
             transition: background 0.3s;
         }
         .btn-print:hover { background-color: #218838; }
+
+        /* NEW FEATURE: Receipt Styling */
+        .receipt-container {
+            display: none; /* Hidden by default */
+            text-align: center;
+        }
+        .receipt-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
+            border-top: 5px solid #28a745;
+        }
+        .receipt-icon {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+        .receipt-id {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0056b3;
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 1rem 0;
+            display: inline-block;
+        }
+        .receipt-details {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1.5rem;
+        }
+        .receipt-details p {
+            margin-bottom: 0.5rem;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+        }
+        .btn-new-order {
+            margin-top: 1.5rem;
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
         .services {
             padding: 4rem 2rem;
@@ -197,7 +247,6 @@
         <nav>
             <ul>
                 <li><a href="#services">Services</a></li>
-                <li><a href="#how">How It Works</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -210,78 +259,103 @@
     </div>
 
     <section class="upload-section" id="order">
-        <h2 class="section-title">Start Your Order</h2>
-        <p style="text-align:center; margin-bottom:20px; color:#666;">All formats accepted: PDF, DOCX, JPG, PNG, CDR.</p>
+        
+        <!-- NEW FEATURE: Receipt Container (Hidden by default) -->
+        <div class="receipt-container" id="receiptContainer">
+            <div class="receipt-card">
+                <div class="receipt-icon">✔</div>
+                <h2>Order Confirmed!</h2>
+                <p>Your order has been placed successfully.</p>
+                
+                <div class="receipt-id" id="displayReceiptId">PK-12345</div>
+                <p style="color: #666; font-size: 0.9rem;">Save this code or take a screenshot.</p>
 
-        <form id="orderForm" action="#" method="POST" enctype="multipart/form-data">
-            
-            <div class="form-group">
-                <label>1. Upload Your File</label>
-                <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
-                    <input type="file" id="fileInput" style="display:none;" required>
-                    <div style="font-size: 2rem; color:#0056b3;">&#128196;</div>
-                    <p id="fileNameDisplay">Click to browse or drag & drop here</p>
+                <div class="receipt-details" id="receiptDetailsContent">
+                    <!-- Details will be injected here by JS -->
                 </div>
+
+                <button class="btn-new-order" onclick="location.reload()">Place New Order</button>
             </div>
+        </div>
 
-            <div class="options-grid">
-                <div class="form-group">
-                    <label for="paperType">2. Paper / Material</label>
-                    <select id="paperType" onchange="calculateTotal()">
-                        <option value="A4-BW" data-price="5">A4 Bond Paper (Black & White) - ₱5/page</option>
-                        <option value="A4-Color" data-price="10">A4 Bond Paper (Colored) - ₱10/page</option>
-                        <option value="Legal" data-price="5">Legal Size Bond Paper - ₱5/page</option>
-                        <option value="Sticker" data-price="50">Sticker Paper (Vinyl) - ₱50/sheet</option>
-                        <option value="Photo" data-price="40">Photo Paper (Glossy) - ₱40/sheet</option>
-                        <option value="Tarp" data-price="15">Tarpaulin - ₱15/sq. ft.</option>
-                    </select>
-                </div>
+        <!-- Form Container (Shown by default) -->
+        <div id="formContainer">
+            <h2 class="section-title">Start Your Order</h2>
+            <p style="text-align:center; margin-bottom:20px; color:#666;">All formats accepted: PDF, DOCX, JPG, PNG, CDR.</p>
 
+            <form id="orderForm" action="#" method="POST" enctype="multipart/form-data">
+                
                 <div class="form-group">
-                    <label for="quantity">3. Copies / Quantity</label>
-                    <input type="number" id="quantity" value="1" min="1" onchange="calculateTotal()" oninput="calculateTotal()">
-                </div>
-            </div>
-
-            <div class="options-grid">
-                <div class="form-group">
-                    <label for="delivery">4. Delivery Option</label>
-                    <!-- Changed onchange to handle both price and address visibility -->
-                    <select id="delivery" onchange="handleDeliveryChange()">
-                        <option value="pickup" data-fee="0">Pick-up at PLSP Gate (Free)</option>
-                        <option value="deliver" data-fee="40">Deliver to my Address (+₱40.00)</option>
-                    </select>
-                    
-                    <!-- NEW FEATURE: Conditional Address Input -->
-                    <div class="delivery-address-group" id="addressGroup">
-                        <label for="address">Please enter your delivery address:</label>
-                        <input type="text" id="address" placeholder="e.g., 123 Rizal St., Brgy. San Jose...">
+                    <label>1. Upload Your File</label>
+                    <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+                        <input type="file" id="fileInput" style="display:none;" required>
+                        <div style="font-size: 2rem; color:#0056b3;">&#128196;</div>
+                        <p id="fileNameDisplay">Click to browse or drag & drop here</p>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="colorMode">5. Color Mode</label>
-                    <select id="colorMode">
-                        <option value="bw">Black & White</option>
-                        <option value="colored">Colored</option>
-                    </select>
+                <div class="options-grid">
+                    <div class="form-group">
+                        <label for="paperType">2. Paper / Material</label>
+                        <select id="paperType" onchange="calculateTotal()">
+                            <option value="A4-BW" data-price="5">A4 Bond Paper (Black & White) - ₱5/page</option>
+                            <option value="A4-Color" data-price="10">A4 Bond Paper (Colored) - ₱10/page</option>
+                            <option value="Legal" data-price="5">Legal Size Bond Paper - ₱5/page</option>
+                            <option value="Sticker" data-price="50">Sticker Paper (Vinyl) - ₱50/sheet</option>
+                            <option value="Photo" data-price="40">Photo Paper (Glossy) - ₱40/sheet</option>
+                            <option value="Tarp" data-price="15">Tarpaulin - ₱15/sq. ft.</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">3. Copies / Quantity</label>
+                        <input type="number" id="quantity" value="1" min="1" onchange="calculateTotal()" oninput="calculateTotal()">
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="notes">Special Instructions (Optional)</label>
-                <input type="text" id="notes" placeholder="e.g., Borderless printing, specific size...">
-            </div>
+                <div class="options-grid">
+                    <div class="form-group">
+                        <label for="delivery">4. Delivery Option</label>
+                        <select id="delivery" onchange="handleDeliveryChange()">
+                            <option value="pickup" data-fee="0">Pick-up at PLSP Gate (Free)</option>
+                            <option value="deliver" data-fee="40">Deliver to my Address (+₱40.00)</option>
+                        </select>
+                        
+                        <div class="delivery-address-group" id="addressGroup">
+                            <label for="address">Delivery Address:</label>
+                            <input type="text" id="address" placeholder="e.g., 123 Rizal St., Brgy. San Jose...">
+                        </div>
+                    </div>
 
-            <!-- Price Display -->
-            <div class="price-summary">
-                <div class="price-label">Estimated Total</div>
-                <div class="total-price" id="totalPrice">₱0.00</div>
-                <div class="price-breakdown" id="priceBreakdown">(Upload a file to see pricing)</div>
-            </div>
+                    <div class="form-group">
+                        <label for="colorMode">5. Color Mode</label>
+                        <select id="colorMode">
+                            <option value="bw">Black & White</option>
+                            <option value="colored">Colored</option>
+                        </select>
+                    </div>
+                </div>
 
-            <button type="submit" class="btn-print">Proceed to Checkout</button>
-        </form>
+                <!-- NEW FEATURE: Nickname Input -->
+                <div class="form-group">
+                    <label for="customerName">6. Your Nickname (For the Driver/Staff)</label>
+                    <input type="text" id="customerName" placeholder="e.g., Kuya Mark, Ate Jessa" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Special Instructions (Optional)</label>
+                    <input type="text" id="notes" placeholder="e.g., Borderless printing, specific size...">
+                </div>
+
+                <div class="price-summary">
+                    <div class="price-label">Estimated Total</div>
+                    <div class="total-price" id="totalPrice">₱0.00</div>
+                    <div class="price-breakdown" id="priceBreakdown">(Upload a file to see pricing)</div>
+                </div>
+
+                <button type="submit" class="btn-print">Proceed to Checkout</button>
+            </form>
+        </div>
     </section>
 
     <section class="services" id="services">
@@ -318,6 +392,8 @@
         const priceBreakdown = document.getElementById('priceBreakdown');
         const deliverySelect = document.getElementById('delivery');
         const addressGroup = document.getElementById('addressGroup');
+        const formContainer = document.getElementById('formContainer');
+        const receiptContainer = document.getElementById('receiptContainer');
 
         fileInput.addEventListener('change', function(e) {
             if (e.target.files.length > 0) {
@@ -354,7 +430,6 @@
 
         function handleDeliveryChange() {
             calculateTotal();
-
             if (deliverySelect.value === 'deliver') {
                 addressGroup.style.display = 'block';
             } else {
@@ -371,8 +446,27 @@
                 alert("Please enter a delivery address.");
                 return;
             }
+            
+            const receiptId = 'PK-' + Math.floor(10000 + Math.random() * 90000);
+            
+            const customerName = document.getElementById('customerName').value || 'N/A';
+            const paperTypeText = document.getElementById('paperType').options[document.getElementById('paperType').selectedIndex].text;
+            const quantity = document.getElementById('quantity').value;
+            const totalPrice = totalPriceDisplay.textContent;
+            const deliveryMethod = deliverySelect.options[deliverySelect.selectedIndex].text;
+            const fileName = fileNameDisplay.textContent;
 
-            alert("Order placed successfully! (This is a demo)");
+            document.getElementById('displayReceiptId').textContent = receiptId;
+            document.getElementById('receiptDetailsContent').innerHTML = `
+                <p><strong>Customer:</strong> ${customerName}</p>
+                <p><strong>File:</strong> ${fileName}</p>
+                <p><strong>Details:</strong> ${paperTypeText} x ${quantity}</p>
+                <p><strong>Method:</strong> ${deliveryMethod}</p>
+                <p style="font-size: 1.2rem; color: #28a745; font-weight: bold; border: none;"><strong>Total:</strong> ${totalPrice}</p>
+            `;
+
+            formContainer.style.display = 'none';
+            receiptContainer.style.display = 'block';
         });
     </script>
 </body>
