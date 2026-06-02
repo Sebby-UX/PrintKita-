@@ -1,6 +1,6 @@
 Version 1.4 - Order Confirmation & Receipt System
 Added
-- Transaction ID Generator: Implemented a feature to generate a unique random Transaction ID (e.g., PK-82931) upon checkout, serving as the customer's receipt number.
+- Transaction ID Generator: Implemented a feature to generate a unique random Transaction ID (e.g., PK-8231) upon checkout, serving as the customer's receipt number.
 - Customer Nickname Field: Added a required input field for customers to enter their nickname, facilitating easier identification for delivery drivers or pickup staff.
 - Order Success Screen: Created a new UI container that displays the final receipt details (Customer Name, File, Price, Transaction ID) after a successful order.
 
@@ -31,7 +31,7 @@ Changed
 
 Version 1.0
 Features
-- Core UI Structure: Established the main layout with a sticky header, hero section, order form, and footer.
+- Core UI Structure: Established the main layout with a sticky header, hero section, order form, and footer
 - Responsive Design: Implemented a mobile-first design using CSS Grid and Flexbox that adapts to different screen sizes.
 - File Upload Interface: Created a drag-and-drop zone (click-to-browse) supporting multiple file formats (PDF, DOCX, JPG, PNG, CDR).
 - Order Configuration Form:
